@@ -17,7 +17,7 @@ llm = {
         }, 
         {
             "role": "assistant",
-            "content": prompts.user_prompt
+            "content": prompts.user_prompt_with_probing
         }
     ]
 }
