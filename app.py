@@ -5,7 +5,8 @@ import prompts
 import config
 from region_voices import REGION_VOICES
 
-st.markdown("# Initiate a call ")  
+st.title("# AI Phone Interview Assistant ") 
+st.caption("# Test out Babblebots' AI Phone Interview Assistant using this page. Just enter your first name and your phone number to receive a call from our AI agent, Eric, who will conduct a short interview for you. Contact us at sales@babblebots.ai if you enjoy the experience and would like to chat with us further!")
 st.sidebar.markdown("# Babblebots ")
 
 auth_token = st.secrets["auth_token"]
@@ -17,18 +18,16 @@ headers = {
     'Content-Type': 'application/json',
 }
 
-def create_payload(company, candidate_phone_number, candidate_name, role, region):
+def create_payload(company, candidate_phone_number, candidate_name):
     # Create the payload for the API request
-    recruiter = "Eric"
-    if region == 'India':
-        recruiter = "Tina"        
+    recruiter = "Eric"        
         
     #config.stt_model["keywords"] = [company, candidate_name]
-    first_bot_message = prompts.first_bot_message.format(company=company, candidate_name=candidate_name, role=role, recruiter=recruiter)
+    first_bot_message = prompts.first_bot_message.format(company=company, candidate_name=candidate_name, recruiter=recruiter)
     config.llm["messages"][0]["content"] = prompts.system_prompt.format(company=company)
-    config.llm["messages"][1]["content"] = prompts.user_prompt.format(questions=questions, company=company)
+    config.llm["messages"][1]["content"] = prompts.user_prompt_with_probing.format(company=company)
         
-    voice_settings = REGION_VOICES.get(region,REGION_VOICES['US'])
+    voice_settings = REGION_VOICES.get(REGION_VOICES['US'])
 
     data = {
         'assistant': {
@@ -55,30 +54,9 @@ def create_payload(company, candidate_phone_number, candidate_name, role, region
 
     return data
 
-region = st.selectbox(
-    label="Select the region",
-    options=list(REGION_VOICES.keys())  
-)
 
 if 'call_id' not in st.session_state:
     st.session_state.call_id = None
-    
-if 'recording_button_clicked' not in st.session_state:
-    st.session_state.recording_button_clicked = True
-
-if 'recording_button_clicked' not in st.session_state:
-    st.session_state.recording_button_clicked = True
-    
-if 'transcript_button_clicked' not in st.session_state:
-    st.session_state.transcript_button_clicked = True
-
-# def show_questions():
-#     selected_option = st.session_state.questions_dropdown
-#     print(f"Selected option: {selected_option}")
-#     if selected_option:
-#         st.session_state.questions_text = prompts.interview_questions["_".join(selected_option.lower().split())]
-#     else:
-#         st.session_state.questions_text = ""
 
 def create_call(data):
     # Make the POST request to VAPI to create the phone call
@@ -108,54 +86,22 @@ def get_call_id():
 
 company = st.text_input(
     label="Enter the name of the company that the AI assistant is calling on behalf of",
-    value="Ameri-Force"
 )
 
 candidate_name = st.text_input(
     label="Enter the first name of the candidate here",
-    # value="Megha"
 )
-
-role = st.text_input(
-    label="Enter the role that the candidate is being interviewed for",
-    value="Structural Coatings - Material Handler"
-)
-
-# selected_template = st.selectbox(
-#     "Choose the interview questions from one of these templates or type out your own below",
-#     (
-#         "Retail Appointment Generator", 
-#         "Warehouse Operator", 
-#         "Onboarding flow asking for signed contract", 
-#         "Onboarding flow asking for work history",
-#         "Channel Sales Manager",
-#         "Software Engineer",
-#         "Nurse Practitioner",
-#         "Car Salesman",
-#         "Structural Coatings - Material Handler"
-#     ),
-#     index=8,  # None,
-#     on_change=show_questions,
-#     key="questions_dropdown"
-# )
-
-# questions = st.text_area(
-#     label="Enter the questions here",
-#     height=200,
-#     key="questions_text",
-#     value=prompts.material_handler
-# )
 
 
 phone_number = st.text_input(
     label="Enter the candidate's phone number here in the given format ('+' followed by the country-code and mobile-number with no spaces in-between )",
     placeholder="+18888888888",
-    # value="+91-9930835419"
+    
 )
 
 if st.button("Make the call", type="primary"):
     try:
-        data = create_payload(company, phone_number, candidate_name, role, region)
+        data = create_payload(company, phone_number, candidate_name)
         if(data):
             create_call(data)
             with st.empty():
@@ -170,23 +116,3 @@ if st.button("Make the call", type="primary"):
         print("Error creating call: ", e)
 
     
-# st.markdown("# ")
-# if st.button("Interview Recording", type="primary", disabled=st.session_state.recording_button_clicked):
-#     call_id = get_call_id()
-#     if call_id:    
-#         url = f"https://api.vapi.ai/call/{call_id}"
-#         response = requests.request("GET", url, headers=headers)
-#         if response.status_code == 200:
-#             recording = response.json().get("recordingUrl",None)
-#             print(recording)
-        
-#             if recording:
-#                 st.markdown("# ")
-#                 st.audio(recording)
-#             else: 
-#                 st.warning("No recording found or call is still in progress!")
-#         else:
-#             st.error(f"failed to fetch interview details {response.status_code} - {response.text}")
-        
-#     else:
-#         st.info("Call id not found, please make a call first")
