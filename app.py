@@ -108,8 +108,6 @@ if st.button("Make the call", type="primary"):
                 st.write("The AI assistant is calling the above number now.")
                 time.sleep(5)
                 st.write("")
-            st.session_state.recording_button_clicked = False
-            st.session_state.transcript_button_clicked = False
         else:
             print("No payload recieved for creating call")
     except Exception as e:
