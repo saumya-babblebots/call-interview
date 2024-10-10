@@ -23,7 +23,7 @@ def create_payload(company, candidate_phone_number, candidate_name):
     recruiter = "Eric"        
         
     #config.stt_model["keywords"] = [company, candidate_name]
-    first_bot_message = prompts.first_bot_message.format(company=company, candidate_name=candidate_name, recruiter=recruiter)
+    first_bot_message = prompts.first_bot_message.format(company=company, recruiter=recruiter)
     config.llm["messages"][0]["content"] = prompts.system_prompt.format(company=company)
     config.llm["messages"][1]["content"] = prompts.user_prompt_with_probing.format(company=company, recruiter = recruiter, first_name = candidate_name)
         
