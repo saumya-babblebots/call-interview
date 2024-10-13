@@ -99,6 +99,7 @@ phone_number = st.text_input(
     
 )
 
+st.markdown("#")
 if st.button("Make the call", type="primary"):
     try:
         data = create_payload(company, phone_number, candidate_name)
