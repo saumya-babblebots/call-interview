@@ -84,7 +84,7 @@ def create_call(data):
 def get_call_id():
     return st.session_state.get('call_id', None)
 
-st.markdown("#")
+st.markdown(''' ''')
 company = st.text_input(
     label="Enter the name of the company that the AI assistant is calling on behalf of",
 )
