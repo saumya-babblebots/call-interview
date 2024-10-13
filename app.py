@@ -84,6 +84,7 @@ def create_call(data):
 def get_call_id():
     return st.session_state.get('call_id', None)
 
+st.markdown("#")
 company = st.text_input(
     label="Enter the name of the company that the AI assistant is calling on behalf of",
 )
@@ -99,7 +100,6 @@ phone_number = st.text_input(
     
 )
 
-st.markdown("#")
 if st.button("Make the call", type="primary"):
     try:
         data = create_payload(company, phone_number, candidate_name)
