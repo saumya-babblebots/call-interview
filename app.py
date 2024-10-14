@@ -5,10 +5,8 @@ import prompts
 import config
 from region_voices import REGION_VOICES
 
-st.title(" AI Phone Interview Assistant ") 
+st.title(" AI Phone Interview Assistant by Babblebots ") 
 st.markdown('''Test out Babblebots' AI Phone Interview Assistant using this page.  Just enter your first name and your phone number to receive a call from our AI agent, Eric, who will conduct a short interview for you.  Contact us at sales@babblebots.ai if you enjoy the experience and would like to chat with us further!''')
-st.sidebar.markdown("# Babblebots ")
-
 auth_token = st.secrets["auth_token"]
 phone_number_id = st.secrets["phone_number_id"]
 
@@ -90,12 +88,12 @@ company = st.text_input(
 )
 
 candidate_name = st.text_input(
-    label="Enter the first name of the candidate here",
+    label="Enter your first name here",
 )
 
 
 phone_number = st.text_input(
-    label="Enter the candidate's phone number here in the given format ('+' followed by the country-code and mobile-number with no spaces in-between )",
+    label="Enter your phone number here in the given format ('+' followed by the country-code and mobile-number with no spaces in-between )",
     placeholder="+18888888888",
     
 )
