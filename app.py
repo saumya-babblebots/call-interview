@@ -16,7 +16,7 @@ headers = {
     'Content-Type': 'application/json',
 }
 
-def create_payload(company="BabbleBots", candidate_phone_number, candidate_name):
+def create_payload(candidate_phone_number, candidate_name, company="BabbleBots"):
     # Create the payload for the API request
     recruiter = "Eric"        
         
