@@ -16,7 +16,7 @@ headers = {
     'Content-Type': 'application/json',
 }
 
-def create_payload(company, candidate_phone_number, candidate_name):
+def create_payload(company="BabbleBots", candidate_phone_number, candidate_name):
     # Create the payload for the API request
     recruiter = "Eric"        
         
@@ -83,9 +83,9 @@ def get_call_id():
     return st.session_state.get('call_id', None)
 
 st.markdown(''' ''')
-company = st.text_input(
-    label="Enter the name of the company that the AI assistant is calling on behalf of",
-)
+# company = st.text_input(
+#     label="Enter the name of the company that the AI assistant is calling on behalf of",
+# )
 
 candidate_name = st.text_input(
     label="Enter your first name here",
@@ -100,7 +100,7 @@ phone_number = st.text_input(
 
 if st.button("Make the call", type="primary"):
     try:
-        data = create_payload(company, phone_number, candidate_name)
+        data = create_payload(phone_number, candidate_name)
         if(data):
             create_call(data)
             with st.empty():
