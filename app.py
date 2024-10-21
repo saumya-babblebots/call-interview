@@ -104,12 +104,14 @@ if st.button("Make the call", type="primary"):
         if(data):
             create_call(data)
             with st.empty():
-                st.write("The AI assistant is calling the above number now.")
+                st.write("Our AI assistant is reaching you out on the above number now.")
                 time.sleep(5)
                 st.write("")
         else:
             print("No payload recieved for creating call")
     except Exception as e:
         print("Error creating call: ", e)
+
+st.markdown(''' Our AI recruiter Eric is about to give you a call for the Customer Support role, coming from this number: tel:+19452533714. It's all set up, so relax and enjoy the chat—Eric's got some questions lined up! Let's make this fun, ''')
 
     
